@@ -76,14 +76,14 @@ const Contact = () => {
   return (
     <>
       <Navbar />
-      <div className="bg-white dark:bg-gray-600 py-24 sm:py-32">
+      <div className="bg-white dark:bg-gray-200 text-black py-15">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           {/* Header */}
-          <div className="mx-auto max-w-2xl lg:mx-0">
-            <h2 className="text-4xl font-semibold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
+          <div className="mx-auto w-full lg:mx-0">
+            <h2 className="text-4xl font-semibold tracking-tight text-blue-500 text-center sm:text-5xl">
               Get in touch
             </h2>
-            <p className="mt-6 text-lg leading-8 text-gray-700 dark:text-white">
+            <p className="mt-6 text-lg leading-8 text-black text-center">
               Have any questions or need assistance? Feel free to reach out to
               us. We're here to connect with you and ensure all your queries are
               addressed.
@@ -95,17 +95,17 @@ const Contact = () => {
             {contacts.map((item, idx) => (
               <div
                 key={idx}
-                className="flex flex-col gap-y-12 rounded-2xl bg-gray-100 dark:bg-gray-400 borderb p-6 shadow-sm"
+                className="flex flex-col gap-y-12 rounded-2xl bg-white dark:bg-gray-200 borderb p-6 shadow-lg"
               >
                 <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-pink-500 shadow-sm">
                   {item.icon}
                 </div>
                 <div className="flex flex-auto flex-col items-start">
                   <div className="flex-auto">
-                    <h3 className="text-xl font-medium tracking-tight text-gray-900 dark:text-white">
+                    <h3 className="text-xl font-medium tracking-tight text-gray-900">
                       {item.title}
                     </h3>
-                    <p className="mt-2 text-base leading-7 text-gray-600 dark:text-white">
+                    <p className="mt-2 text-base leading-7 text-gray-600">
                       {item.description}
                     </p>
                   </div>

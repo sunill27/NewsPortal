@@ -6,14 +6,13 @@ const About = () => {
   return (
     <>
       <Navbar />
-      <div className="bg-white dark:bg-gray-600">
-        <header className="bg-white text-gray-900 dark:bg-gray-600 dark:text-white text-center py-6">
-          <h1 className="font-bold dark:text-green-500">About Us</h1>
+      <div className="bg-white dark:bg-gray-200">
+        <header className="bg-white text-gray-900 dark:bg-gray-200 text-center py-6">
+          <h1 className="font-bold text-green-500">About Us</h1>
         </header>
-
-        <section className="text-center px-4 dark:bg-gray-600 border-b">
+        <section className="text-center px-4 dark:bg-gray-200 border-b border-b-black dark:border-b-white">
           {/* <h2 className="text-2xl font-bold">Mission And Values</h2> */}
-          <p className="mt-4 text-gray-700 dark:text-white max-w-2xl mx-auto">
+          <p className="mt-4 text-gray-700 max-w-2xl mx-auto">
             Welcome to our online news portal Bitta Today — your trusted source
             for accurate, balanced, and timely news. We are committed to
             providing comprehensive coverage of all national events, with a
@@ -28,22 +27,25 @@ const About = () => {
             backgrounds. With integrity at our core, we strive to be a voice you
             can rely on in a rapidly changing world.{" "}
           </p>
-          <div className="flex justify-center space-x-8 mt-8 animate-fadeIn">
+          <div className="flex justify-center space-x-8 my-8 animate-fadeIn">
             <div className="transition transform hover:scale-110">
-              <h3 className="text-xl font-bold hover:text-green-500">5+</h3>
-              <p className="text-gray-700 font-bold dark:text-white hover:text-green-500">
+              <h3 className="text-xl font-bold text-gray-700 hover:text-green-500">
+                5+
+              </h3>
+              <p className="text-gray-700 font-bold hover:text-green-500">
                 Specialists
               </p>
             </div>
             <div className="transition transform hover:scale-110">
-              <h3 className="text-xl font-bold hover:text-green-500">7+</h3>
-              <p className="text-gray-700 font-bold dark:text-white hover:text-green-500">
+              <h3 className="text-xl font-bold text-gray-700 hover:text-green-500">
+                7+
+              </h3>
+              <p className="text-gray-700 font-bold hover:text-green-500">
                 Years of Experience
               </p>
             </div>
           </div>
         </section>
-
         {/* <section className="bg-green-500 text-white py-12 px-4">
           <h2 className="text-2xl font-bold text-center">Our Vision</h2>
           <p className="mt-4 text-center max-w-2xl mx-auto">
@@ -51,7 +53,6 @@ const About = () => {
             industry by making quality healthcare accessible to everyone.
           </p>
         </section> */}
-
         {/* <section className="text-center py-12 px-4">
           <h2 className="text-2xl font-bold">Our Healthcare Specialties</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mt-8">
@@ -69,7 +70,6 @@ const About = () => {
             </div>
           </div>
         </section> */}
-
         {/* <section className="bg-gray-100 py-12 px-4">
           <h2 className="text-2xl font-bold text-center">
             State-Of-The-Art Technology
@@ -100,8 +100,7 @@ const About = () => {
               </p>
             </div>
           </div>
-        </section> */}
-
+        </section> */}{" "}
         {/* <section className="text-center py-12 px-4">
           <h2 className="text-2xl font-bold">
             Committed To Your Health And Happiness
@@ -121,25 +120,26 @@ const About = () => {
             </div>
           </div>
         </section> */}
-
-        <section className="bg-white text-gray-900 dark:bg-gray-600 dark:text-white text-center py-6 px-4">
-          <h2 className="text-2xl font-bold">User Testimonials</h2>
+        <section className="bg-white text-gray-900 dark:bg-gray-200 text-center py-6 px-4 mb-8">
+          <h2 className="text-2xl font-bold text-green-500">
+            User Testimonials
+          </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-8 max-w-5xl mx-auto">
-            <div className="p-4 shadow-lg rounded-lg bg-gray-100 dark:bg-gray-400 text-gray-900 dark: dark:text-white hover:bg-green-500 transition-colors">
+            <div className="p-4 shadow-lg rounded-lg bg-white dark:bg-gray-200 text-gray-900 hover:bg-gray-300 transition-colors">
               <p>
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
                 sit amet tristique mi."
               </p>
               <h3 className="mt-4 font-bold">- User A</h3>
             </div>
-            <div className="p-4 shadow-lg rounded-lg bg-gray-100 dark:bg-gray-400 text-gray-900 dark: dark:text-white hover:bg-green-500 transition-colors">
+            <div className="p-4 shadow-lg rounded-lg bg-white dark:bg-gray-200 text-gray-900 hover:bg-gray-300 transition-colors">
               <p>
                 "Nullam ac augue eget diam posuere vehicula. Vivamus quis nulla
                 ac justo euismod posuere."
               </p>
               <h3 className="mt-4 font-bold">- User B</h3>
             </div>
-            <div className="p-4 shadow-lg rounded-lg bg-gray-100 dark:bg-gray-400 text-gray-900 dark: dark:text-white hover:bg-green-500 transition-colors">
+            <div className="p-4 shadow-lg rounded-lg bg-white dark:bg-gray-200 text-gray-900 hover:bg-gray-300 transition-colors">
               <p>
                 "Fusce tincidunt, arcu nec vestibulum tincidunt, eros massa
                 ullamcorper urna."
@@ -148,7 +148,6 @@ const About = () => {
             </div>
           </div>
         </section>
-
         {/* <section className="text-center py-12 px-4 w-full">
           <h2 className="text-2xl font-bold">
             Get Answer To Your Most Asked Questions

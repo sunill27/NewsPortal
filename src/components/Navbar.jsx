@@ -5,15 +5,15 @@ const Navbar = () => {
   const navItems = [
     { name: "Home", link: "/" },
     { name: "Politics", link: "/politics" },
+    { name: "Travel", link: "/travel" },
     { name: "Finance", link: "/finance" },
     { name: "Markets", link: "/markets" },
     { name: "Agriculture", link: "/agriculture" },
     { name: "Energy", link: "/energy" },
     { name: "Weather", link: "/weather" },
     { name: "Corporate", link: "/corporate" },
-    { name: "Careers", link: "/careers" },
+    { name: "Careers", link: "#careers" },
     { name: "Tech", link: "/tech" },
-    { name: "Opinion", link: "/opinion" },
     { name: "Sports", link: "/sports" },
     {
       name: "Other",
@@ -51,7 +51,7 @@ const Navbar = () => {
   });
 
   return (
-    <header className="sticky top-0 z-50 bg-gray-100 dark:bg-gray-900 border-b dark:border-gray-700 text-gray-900 dark:text-white">
+    <header className="sticky top-0 z-50 bg-gray-100 dark:bg-gray-900 dark:border-gray-700 text-gray-900 dark:text-white">
       {/* Header Content */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-4 py-4 gap-4 relative">
         {/* Logo + Date */}

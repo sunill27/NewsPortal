@@ -2,6 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
+  const quickLinks = [
+    { label: "Home", path: "/" },
+    { label: "About Us", path: "/about" },
+    { label: "Contact", path: "/contact" },
+  ];
+
   return (
     <>
       <link
@@ -29,9 +35,10 @@ const Footer = () => {
               </Link>{" "}
             </div>
             <p className="mb-4 leading-relaxed opacity-90 dark:opacity-90">
-              Your premier destination for creative expression and professional
-              production in the heart of Lucknow. We provide fully-equipped
-              spaces for artists, creators, and businesses.
+              Welcome to our online news portal Bitta Today — your trusted
+              source for accurate, balanced, and timely news. We are committed
+              to providing comprehensive coverage of all national events, with a
+              focus on truth, transparency, and public interest.
             </p>
             {/* Social Links */}
             <div className="flex space-x-3">
@@ -58,29 +65,22 @@ const Footer = () => {
               Quick Links
             </h3>
             <ul className="space-y-3">
-              {[
-                "Home",
-                "Politics",
-                "Finance",
-                "Agriculture",
-                "Tech",
-                "Sports",
-              ].map((item) => (
-                <li key={item}>
-                  <a
-                    href="#"
+              {quickLinks.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    to={link.path}
                     className="flex items-center gap-2 opacity-90 hover:opacity-100 hover:translate-x-1 transition text-gray-900 dark:text-white"
                   >
                     <i className="fas fa-chevron-right text-pink-600"></i>{" "}
-                    {item}
-                  </a>
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
           {/* Our Services */}
-          <div>
+          {/* <div>
             <h3 className="text-xl text-pink-600 font-semibold mb-6 border-b-2 border-pink-600 pb-2">
               Our Team
             </h3>
@@ -103,7 +103,7 @@ const Footer = () => {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
 
           {/* Contact Us */}
           <div>
@@ -140,7 +140,7 @@ const Footer = () => {
             </ul>
 
             {/* Newsletter */}
-            <h3 className="text-xl text-pink-600 font-semibold mb-2 border-b-2 border-pink-600 pb-2">
+            {/* <h3 className="text-xl text-pink-600 font-semibold mb-2 border-b-2 border-pink-600 pb-2">
               Newsletter
             </h3>
             <p className="mb-4 opacity-70 dark:opacity-60">
@@ -159,7 +159,7 @@ const Footer = () => {
               >
                 <i className="fas fa-paper-plane"></i>
               </button>
-            </form>
+            </form> */}
           </div>
         </div>
 
