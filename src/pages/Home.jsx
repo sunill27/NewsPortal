@@ -19,16 +19,11 @@ const Home = () => {
       setLoading(true);
       const [politicsRes, financeRes, corporateRes, trendingRes] =
         await Promise.all([
-          axios.get(`${BASE_URL}/news?category=politics&limit=5&sort=latest`),
-          axios.get(`${BASE_URL}/news?category=finance&limit=5&sort=latest`),
-          axios.get(`${BASE_URL}/news?category=corporate&limit=5&sort=latest`),
+          axios.get(`${BASE_URL}/news?category=politics&limit=6&sort=latest`),
+          axios.get(`${BASE_URL}/news?category=finance&limit=6&sort=latest`),
+          axios.get(`${BASE_URL}/news?category=corporate&limit=6&sort=latest`),
           axios.get(`${BASE_URL}/news?limit=5&sort=latest`), // trending — no category, just latest
         ]);
-      // console.log("Politics API data:", politicsRes.data);
-      // console.log("Finance API data:", financeRes.data);
-      // console.log("Corporate API data:", corporateRes.data);
-      // console.log("Trending API data:", trendingRes.data);
-
       setNewsData({
         trending: trendingRes.data.data || [],
         finance: financeRes.data.data || [],
@@ -47,252 +42,338 @@ const Home = () => {
     fetchNewsData();
   }, []);
 
-  const newsArray = [
-    newsData.politics[0],
-    newsData.trending[0],
-    newsData.finance[1],
-    newsData.corporate[0],
-    newsData.trending[1],
-    newsData.trending[1],
-    newsData.trending[2],
-  ].filter(Boolean);
-
   if (loading) return <p>Loading news...</p>;
   if (error) return <p>{error}</p>;
 
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-white text-gray-900 font-sans">
-        {/* Main Content Grid */}
-        <main className="w-full mx-auto grid md:grid-cols-3 gap-8 px-20 py-10 dark:bg-gray-200 dark:text-black">
-          {/* Left Column */}
-          <section className="md:col-span-2 space-y-10">
-            <article>
-              <div className="mb-6">
-                <div className="flex items-center">
-                  <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-t font-semibold text-sm z-10">
-                    Trending
-                  </div>
-                  <div className="flex-grow border-b-2 border-red-600"></div>
-                </div>
-              </div>
-              {newsData.trending.length > 0 ? (
-                <>
-                  <Link to={`/news/${newsData.trending[0]._id}`}>
-                    <h4 className="text-2xl font-bold mb-2 hover:text-indigo-600 transition">
-                      {newsData.trending[0].title}
-                    </h4>
-                    <img
-                      src={newsData.trending[0].image || "news.jpg"}
-                      alt={newsData.trending[0].title}
-                      className="rounded-lg my-4"
-                    />
-                  </Link>
-                  <ul className="list-disc pl-6 space-y-2 text-gray-700 dark:text-black">
-                    {newsData.trending.slice(1, 5).map((item, idx) => (
-                      <li key={idx}>
-                        <Link
-                          key={item._id}
-                          to={`/news/${item._id}`}
-                          className="block text-black mb-2 hover:text-indigo-600 transition duration-500 ease-in-out"
-                        >
-                          {item.title}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              ) : (
-                <p>Loading main news...</p>
-              )}
-            </article>
-
-            {/* Finance */}
-            <section>
-              <div className="mb-6">
-                <div className="flex items-center">
-                  <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-t font-semibold text-sm z-10">
-                    Finance
-                  </div>
-                  <div className="flex-grow border-b-2 border-red-600"></div>
-                </div>
-              </div>
-              <ul className="space-y-3">
-                {newsData.finance.slice(0, 5).map((item, idx) => (
-                  <Link
-                    key={item._id}
-                    to={`/news/${item._id}`}
-                    className="block text-black mb-2 hover:text-indigo-600 transition duration-500 ease-in-out"
-                  >
-                    {item.title}
-                  </Link>
-                ))}
-              </ul>
-            </section>
-          </section>
-
-          {/* Sidebar */}
-          <aside className="space-y-8">
-            <section>
-              <div className="mb-6">
-                <div className="flex items-center">
-                  <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-t font-semibold text-sm z-10">
-                    Politics
-                  </div>
-                  <div className="flex-grow border-b-2 border-red-600"></div>
-                </div>
-              </div>
-              <ul className="space-y-3">
-                {newsData.politics.slice(0, 5).map((item) => (
-                  <Link
-                    key={item._id}
-                    to={`/news/${item._id}`}
-                    className="block text-black mb-2 hover:text-indigo-600 transition duration-500 ease-in-out"
-                  >
-                    {item.title}
-                  </Link>
-                ))}
-              </ul>
-            </section>
-            <div className="rounded-md text-center">
-              <p className="text-sm font-medium">Advertisement</p>
-              <Link to="#">
-                <img src="news.jpg" alt="Image" />
-              </Link>{" "}
-            </div>
-            <div>
-              <div className="mb-6">
-                <div className="flex items-center">
-                  <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-t font-semibold text-sm z-10">
-                    Corporate
-                  </div>
-                  <div className="flex-grow border-b-2 border-red-600"></div>
-                </div>
-              </div>
-              <ul className="space-y-3">
-                {newsData.corporate.slice(0, 5).map((item, idx) => (
-                  <Link
-                    key={item._id}
-                    to={`/news/${item._id}`}
-                    className="block text-black mb-2 hover:text-indigo-600 transition duration-500 ease-in-out"
-                  >
-                    {item.title}
-                  </Link>
-                ))}
-              </ul>
-            </div>
-            {/* <div className="rounded-md text-center">
-              <p className="text-sm font-medium">Advertisement</p>
-              <Link to="#">
-                <img src="news.jpg" alt="Image" />
-              </Link>
-            </div> */}
-          </aside>
-        </main>
-
-        {/* Advertisement Section */}
-        <div className="w-full px-4 py-4 bg-white dark:bg-gray-200">
-          <div className="max-w-screen-xl mx-auto">
-            <img
-              src="advertisement.jpg"
-              alt="Ad Banner"
-              className="w-full h-auto object-contain"
-            />
-          </div>
-        </div>
-
-        <div className="w-full mx-auto p-5 sm:p-10 md:p-16 relative dark:bg-gray-200">
+      <div className="min-h-screen bg-white text-gray-900 font-">
+        {/* Top Section */}
+        <section className="w-full mx-auto p-5 sm:p-10 md:p-10 relative dark:bg-gray-200">
           <div className="mb-6">
             <div className="flex items-center">
-              <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-t font-semibold text-sm z-10">
+              <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-t font-semibold text-lg z-10">
                 Top News
               </div>
               <div className="flex-grow border-b-2 border-red-600"></div>
             </div>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-12 gap-5">
-            {newsArray.length > 0 && (
-              <div className="sm:col-span-5">
-                <Link to={`/news/${newsArray[0]._id}`}>
-                  <div
-                    className="bg-cover text-center overflow-hidden"
-                    style={{
-                      minHeight: "300px",
-                      backgroundImage: `url('${
-                        newsArray[0].imageUrl ||
+          <div className="grid grid-cols-1 sm:grid-cols-12 gap-6">
+            {newsData.trending && newsData.trending.length > 0 && (
+              <>
+                <div
+                  className="sm:col-span-5 bg-white shadow rounded-lg overflow-hidden flex flex-col"
+                  style={{ height: "550px" }}
+                >
+                  <Link to={`/news/${newsData.trending[0]._id}`}>
+                    <img
+                      src={
+                        newsData.trending[0].imageUrl ||
                         "https://media.istockphoto.com/id/1369150014/vector/breaking-news-with-world-map-background-vector.jpg?s=612x612&w=0&k=20&c=9pR2-nDBhb7cOvvZU_VdgkMmPJXrBQ4rB1AkTXxRIKM="
-                      }')`,
-                    }}
-                  ></div>
-                </Link>
-                <div className="mt-3 p-2 bg-gray-100 dark:bg-white  rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
-                  <div className="">
+                      }
+                      alt={newsData.trending[0].title}
+                      className="w-full h-80 object-cover"
+                    />
+                  </Link>
+                  <div
+                    className="p-4 flex flex-col justify-between flex-grow"
+                    style={{ height: "calc(450px - 240px)" }}
+                  >
                     <Link
                       to="#"
                       className="text-xs text-indigo-600 uppercase font-medium hover:text-gray-900 transition duration-500 ease-in-out"
                     >
-                      {newsArray[0].category || "Category"}
+                      {newsData.trending[0].category || "Category"}
                     </Link>
                     <Link
-                      to={`/news/${newsArray[0]._id}`}
-                      className="block text-gray-900 font-bold text-2xl mb-2 hover:text-indigo-600 transition duration-500 ease-in-out"
+                      to={`/news/${newsData.trending[0]._id}`}
+                      className="text-gray-900 font-bold text-2xl my-2 hover:text-indigo-600 transition duration-500 ease-in-out"
                     >
-                      {newsArray[0].title}
+                      {newsData.trending[0].title}
                     </Link>
-                    <p className="text-gray-700 text-base mt-2">
-                      {newsArray[0].excerpt}
+                    <p
+                      className="text-gray-700 text-base mb-4 overflow-hidden"
+                      style={{ maxHeight: "100px", textOverflow: "ellipsis" }}
+                    >
+                      {newsData.trending[0].excerpt}
                     </p>
-                    <Link to={`/news/${newsArray[0]._id}`}>
-                      <div className="flex justify-center">
-                        <button className="m-3 w-40 justify-center bg-blue-400 hover:bg-blue-700 text-white py-1 px-3 rounded-full text-sm">
-                          Read More
-                        </button>
-                      </div>
+                    <Link to={`/news/${newsData.trending[0]._id}`}>
+                      <button className="w-40 bg-blue-400 hover:bg-blue-700 text-white py-1 px-3 rounded-full text-sm self-center">
+                        Read More
+                      </button>
                     </Link>
                   </div>
                 </div>
-              </div>
+              </>
             )}
 
-            <div className="sm:col-span-7 grid grid-cols-2 lg:grid-cols-3 gap-5">
-              {newsArray.slice(1).map((item) => (
-                <div key={item._id}>
-                  <Link to={`/news/${item._id}`}>
-                    <div
-                      className="h-40 bg-cover text-center overflow-hidden"
-                      style={{
-                        backgroundImage: `url('${
-                          item.imageUrl ||
-                          "https://media.istockphoto.com/id/1369150014/vector/breaking-news-with-world-map-background-vector.jpg?s=612x612&w=0&k=20&c=9pR2-nDBhb7cOvvZU_VdgkMmPJXrBQ4rB1AkTXxRIKM="
-                        }')`,
-                      }}
-                    ></div>
-                  </Link>
-                  <Link
-                    to={`/news/${item._id}`}
-                    className="text-gray-900 inline-block font-semibold text-md my-1 hover:text-indigo-600 transition duration-500 ease-in-out"
+            <div className="sm:col-span-7 grid grid-cols-2 gap-4">
+              {newsData.trending && newsData.trending.length > 1 ? (
+                newsData.trending.slice(1).map((item, idx) => (
+                  <div
+                    key={item._id || idx}
+                    className="bg-white shadow rounded-lg overflow-hidden"
                   >
-                    {item?.title}
-                    <p className="text-xs text-black">{item?.excerpt}</p>{" "}
-                  </Link>
-                </div>
-              ))}
+                    <img
+                      src={
+                        item?.imageUrl ||
+                        "https://media.istockphoto.com/id/1369150014/vector/breaking-news-with-world-map-background-vector.jpg?s=612x612&w=0&k=20&c=9pR2-nDBhb7cOvvZU_VdgkMmPJXrBQ4rB1AkTXxRIKM="
+                      }
+                      alt={item?.title}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-4">
+                      <Link to={`/news/${item._id}`}>
+                        <h3 className="text-lg font-semibold text-gray-800 hover:text-indigo-600 cursor-pointer">
+                          {item?.title}
+                        </h3>
+                      </Link>
+                      <p className="text-sm text-gray-700 mt-1">
+                        {item?.excerpt}
+                      </p>
+                      <p className="text-xs text-gray-600 mt-3">
+                        <span className="text-green-600 font-semibold">
+                          {item?.author || "Bitta Today"}
+                        </span>
+                        <span>, </span>
+                        {item?.publishedAt
+                          ? item.publishedAt.slice(0, 10)
+                          : "Unknown time"}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              ) : error ? (
+                <p className="text-red-600 col-span-full">{error}</p>
+              ) : (
+                <p className="text-gray-500 col-span-full">Loading news...</p>
+              )}
             </div>
           </div>
-        </div>
 
-        {/* Advertisement Section */}
-        <div className="w-full px-4 py-4 bg-white dark:bg-gray-200">
-          <div className="max-w-screen-xl mx-auto">
-            <img
-              src="advertisement.jpg"
-              alt="Ad Banner"
-              className="w-full h-auto object-contain  mb-5"
-            />
+          {/* Advertisement Section */}
+          <div className="w-full p-4 bg-white dark:bg-gray-200 mt-2">
+            <div className="max-w-screen-xl mx-auto">
+              <img
+                src="advertisement.jpg"
+                alt="Ad Banner"
+                className="w-full h-auto object-contain  mb-5"
+              />
+            </div>
           </div>
-        </div>
+        </section>
+
+        {/* Politics Section */}
+        <section className="px-10 bg-white dark:bg-gray-200">
+          <div className="mb-6">
+            <div className="flex items-center">
+              <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-t font-semibold text-lg z-10">
+                Politics
+              </div>
+              <div className="flex-grow border-b-2 border-red-600"></div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <div className="lg:col-span-3 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {newsData.politics && newsData.politics.length > 0 ? (
+                newsData.politics.map((item, idx) => {
+                  console.log("imageUrl for item", item?.imageUrl); // ✅ This works now
+
+                  return (
+                    <div
+                      key={item._id || idx}
+                      className="bg-white shadow rounded-lg overflow-hidden"
+                    >
+                      <img
+                        src={item?.imageUrl || "news.jpg"}
+                        alt={item?.title}
+                        className="w-full h-48 object-cover"
+                      />
+                      <div className="p-4">
+                        <Link to={`/news/${item._id}`}>
+                          <h3 className="text-lg font-semibold text-gray-800 hover:text-blue-600 cursor-pointer">
+                            {item?.title}
+                          </h3>
+                        </Link>
+                        <h4 className="text-md text-gray-800">
+                          {item?.excerpt}
+                        </h4>
+
+                        <p className="text-md text-gray-800 mt-2">
+                          <span className="text-green-600 font-semibold">
+                            {item?.author || "Bitta Today"}
+                          </span>
+                          <span>,</span>{" "}
+                          {item?.publishedAt?.slice(0, 10) || "Unknown time"}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : error ? (
+                <p className="text-red-600 col-span-full">{error}</p>
+              ) : (
+                <p className="text-gray-500 col-span-full">Loading news...</p>
+              )}
+            </div>
+
+            {/* RIGHT SIDE: Ad Section */}
+            <div className="bg-gray-100 p-4 rounded-lg shadow h-fit">
+              <h2 className="bg-green-600 text-white text-sm font-semibold px-3 py-2 rounded">
+                विज्ञापन
+              </h2>
+              <div className="mt-4 space-y-4">
+                <div className="w-full h-40 bg-white rounded shadow overflow-hidden flex items-center justify-center">
+                  <img
+                    src="news.jpg"
+                    alt="Ad Banner 1"
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+                <div className="w-full h-40 bg-white rounded shadow overflow-hidden flex items-center justify-center">
+                  <img
+                    src="news.jpg"
+                    alt="Ad Banner 2"
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+                <div className="w-full h-40 bg-white rounded shadow overflow-hidden flex items-center justify-center">
+                  <img
+                    src="news.jpg"
+                    alt="Ad Banner 3"
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Finance Section */}
+        <section className="p-10 bg-white dark:bg-gray-200">
+          <div className="mb-6">
+            <div className="flex items-center">
+              <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-t font-semibold text-lg z-10">
+                Finance
+              </div>
+              <div className="flex-grow border-b-2 border-red-600"></div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+            <div className="lg:col-span-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {newsData.finance && newsData.finance.length > 0 ? (
+                newsData.finance.map((item, idx) => {
+                  console.log("imageUrl for item", item?.imageUrl); // ✅ This works now
+
+                  return (
+                    <div
+                      key={item._id || idx}
+                      className="bg-white shadow rounded-lg overflow-hidden"
+                    >
+                      <img
+                        src={item?.imageUrl || "news.jpg"}
+                        alt={item?.title}
+                        className="w-full h-48 object-cover"
+                      />
+                      <div className="p-4">
+                        <Link to={`/news/${item._id}`}>
+                          <h3 className="text-lg font-semibold text-gray-800 hover:text-blue-600 cursor-pointer">
+                            {item?.title}
+                          </h3>
+                        </Link>
+                        <h4 className="text-md text-gray-800">
+                          {item?.excerpt}
+                        </h4>
+
+                        <p className="text-md text-gray-800 mt-2">
+                          <span className="text-green-600 font-semibold">
+                            {item?.author || "Bitta Today"}
+                          </span>
+                          <span>,</span>{" "}
+                          {item?.publishedAt?.slice(0, 10) || "Unknown time"}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : error ? (
+                <p className="text-red-600 col-span-full">{error}</p>
+              ) : (
+                <p className="text-gray-500 col-span-full">Loading news...</p>
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* Corporate Section */}
+        <section className="px-10 bg-white dark:bg-gray-200">
+          <div className="mb-6">
+            <div className="flex items-center">
+              <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-t font-semibold text-lg z-10">
+                Corporate
+              </div>
+              <div className="flex-grow border-b-2 border-red-600"></div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+            <div className="lg:col-span-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {newsData.corporate && newsData.corporate.length > 0 ? (
+                newsData.corporate.map((item, idx) => {
+                  console.log("imageUrl for item", item?.imageUrl); // ✅ This works now
+
+                  return (
+                    <div
+                      key={item._id || idx}
+                      className="bg-white shadow rounded-lg overflow-hidden"
+                    >
+                      <img
+                        src={item?.imageUrl || "news.jpg"}
+                        alt={item?.title}
+                        className="w-full h-48 object-cover"
+                      />
+                      <div className="p-4">
+                        <Link to={`/news/${item._id}`}>
+                          <h3 className="text-lg font-semibold text-gray-800 hover:text-blue-600 cursor-pointer">
+                            {item?.title}
+                          </h3>
+                        </Link>
+                        <h4 className="text-md text-gray-800">
+                          {item?.excerpt}
+                        </h4>
+
+                        <p className="text-md text-gray-800 mt-2">
+                          <span className="text-green-600 font-semibold">
+                            {item?.author || "Bitta Today"}
+                          </span>
+                          <span>,</span>{" "}
+                          {item?.publishedAt?.slice(0, 10) || "Unknown time"}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : error ? (
+                <p className="text-red-600 col-span-full">{error}</p>
+              ) : (
+                <p className="text-gray-500 col-span-full">Loading news...</p>
+              )}
+            </div>
+          </div>
+          {/* Advertisement Section */}
+          <div className="w-full p-4 bg-white dark:bg-gray-200 mt-2">
+            <div className="max-w-screen-xl mx-auto">
+              <img
+                src="advertisement.jpg"
+                alt="Ad Banner"
+                className="w-full h-auto object-contain  mb-5"
+              />
+            </div>
+          </div>
+        </section>
 
         {/* Footer */}
         <Footer />

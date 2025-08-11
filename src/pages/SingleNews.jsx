@@ -6,202 +6,213 @@ import axios from "axios";
 
 const SingleNews = () => {
   const { _id } = useParams();
-  const [news, setNews] = useState({});
+  const [news, setNews] = useState(null);
   const [loading, setLoading] = useState(true);
   const [relatedNews, setRelatedNews] = useState([]);
+
+  // Fetch the single news article
   const fetchNews = async () => {
     try {
       const response = await axios.get(`http://localhost:3000/news/${_id}`);
-      console.log("Response from API:", response);
       if (response.status === 200) {
-        console.log("News data:", response.data.data);
         setNews(response.data.data);
       }
     } catch (error) {
       console.error("Error fetching news:", error);
     }
   };
+
   useEffect(() => {
-    const loadData = async () => {
-      await fetchNews();
-    };
-    loadData();
+    setLoading(true);
+    fetchNews();
   }, [_id]);
 
-  // useEffect(() => {
-  //   const fetchRelatedNews = async () => {
-  //     if (news?.category) {
-  //       try {
-  //         const response = await axios.get(`/news/category/${news.category}`);
-  //         if (response.status === 200) {
-  //           const filtered = response.data.data.filter(
-  //             (item) => item.__id !== _id
-  //           );
-  //           setRelatedNews(filtered);
-  //         }
-  //       } catch (error) {
-  //         console.error("Error fetching related news:", error);
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchRelatedNews = async () => {
+      if (news?.category?.categoryName) {
+        try {
+          const categoryParam = encodeURIComponent(news.category.categoryName);
+          const response = await axios.get(
+            `http://localhost:3000/news/category/${categoryParam}`
+          );
 
-  //   fetchRelatedNews();
-  // }, [news]);
+          console.log("Related news response:", response.data);
+
+          if (response.status === 200) {
+            const filtered = response.data.data
+              .filter((item) => item._id !== _id)
+              .sort((a, b) => {
+                const dateA = new Date(a.publishedAt).getTime() || 0;
+                const dateB = new Date(b.publishedAt).getTime() || 0;
+                return dateB - dateA;
+              })
+              .slice(0, 6);
+            setRelatedNews(filtered);
+          }
+        } catch (error) {
+          console.error("Error fetching related news:", error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setLoading(false);
+      }
+    };
+
+    fetchRelatedNews();
+  }, [news, _id]);
+
+  if (loading) {
+    return <div className="text-center mt-10">Loading...</div>;
+  }
+
+  if (!news) {
+    return <div className="text-center mt-10">News not found.</div>;
+  }
 
   return (
     <>
       <Navbar />
-      <div className="w-full mx-auto bg-white dark:bg-gray-200 text-black p-4 space-y-6">
-        <div className="flex flex-col md:flex-row gap-6">
-          {/* Main Content (2/3) */}
-          <div className="w-full md:w-2/3 space-y-4">
-            {/* Image + Paragraph */}
-            <div className="flex flex-col md:flex-row gap-4">
-              {/* Image */}
-              <div className="w-full md:w-1/2">
-                <div className="relative">
+      <div className="min-h-screen bg-white dark:bg-gray-200 px-10 py-5 text-black dark:text-black">
+        <div className="flex flex-col lg:flex-row gap-6">
+          <div className="w-full lg:w-[75%] space-y-6 pl-2 pr-4">
+            <h1 className="text-xl md:text-3xl font-bold leading-snug mb-1">
+              {news?.title}
+            </h1>
+            <div className="text-sm font-semibold text-black flex flex-wrap items-center pl-1 gap-3">
+              Published On: {news?.publishedAt?.slice(0, 10)}
+            </div>
+            <div className="w-full">
+              <div className="w-full md:w-[70%]">
+                <div className="aspect-video md:aspect-[16/9] overflow-hidden rounded-lg shadow-lg">
                   <img
-                    // src={news?.imageUrl}
-                    src="https://media.istockphoto.com/id/1369150014/vector/breaking-news-with-world-map-background-vector.jpg?s=612x612&w=0&k=20&c=9pR2-nDBhb7cOvvZU_VdgkMmPJXrBQ4rB1AkTXxRIKM="
-                    alt="News Image"
-                    className="rounded shadow-md"
+                    src={
+                      news?.imageUrl ||
+                      "https://media.istockphoto.com/id/1369150014/vector/breaking-news-with-world-map-background-vector.jpg?s=612x612&w=0&k=20&c=9pR2-nDBhb7cOvvZU_VdgkMmPJXrBQ4rB1AkTXxRIKM="
+                    }
+                    alt="News"
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                   />
-                  <span className="absolute top-2 right-7 text-xs bg-red-500 text-white px-2 py-0.5 rounded">
-                    {news?.category?.categoryName}
-                  </span>
                 </div>
-                <p className="text-xs mt-1 text-center text-black">
-                  Representative image.
+                <p className="text-xs text-center text-black font-semibold mt-2">
+                  फोटो : {news?.author || "सम्बन्धित निकाय"}
                 </p>
               </div>
-
-              {/* Text */}
-              <div className="flex-1 text-sm">
-                <p>
-                  <span className="text-blue-700 dark:text-blue-400 text-lg font-semibold">
-                    {news?.title}
-                  </span>
-                </p>
-                <p className="text-lg">{news?.excerpt}</p>
-                <div className="flex items-center text-sm text-black dark:text-black gap-1">
-                  {/* Author with icon */}
-                  <div className="flex items-center gap-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-4 h-4"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-                      />
-                    </svg>
-                    <span>{news?.author || "Unknown"}</span>
-                  </div>
-
-                  {/* Comma separator */}
-                  <span>,</span>
-
-                  {/* Date and Time */}
-                  <div className="text-xs">
-                    {news?.publishedAt?.slice(0, 10)}
-                  </div>
-                </div>
-              </div>
             </div>
-
-            {/* Additional Info */}
-            <p className="text-lg">
-              {news?.description}
-              <span>,</span>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Est,
-              distinctio repellat. Enim consequatur veritatis nulla aliqu_id
-              consequuntur culpa aspernatur laboriosam labore ea voluptate ad,
-              omnis numquam amet sequi accusamus itaque, reprehenderit, fuga
-              eligendi. Cumque voluptatum impedit nam vero iusto veniam, nobis
-              consequatur vel labore illo. Lorem ipsum dolor sit amet
-              consectetur adipisicing elit. Sapiente odio eligendi, amet
-              consectetur in iure atque aut expedita molestiae tempore qu_idem
-              sed ipsa velit autem ratione illum hic iste! Suscipit, quas
-              assumenda temporibus laudantium magni, cum libero odio repellendus
-              asperiores blanditiis repellat ipsam quaerat. Explicabo doloremque
-              dignissimos eos cum quisquam asperiores voluptatem facilis
-              doloribus alias sit dolore, voluptate perspiciatis, magni voluptas
-              soluta eligendi exercitationem inc_idunt quibusdam similique
-              officiis fuga mollitia consectetur? Dignissimos, earum dolore
-              vitae animi excepturi numquam porro quod. Repellat consequuntur
-              hic quam ullam doloribus beatae suscipit eveniet laborum
-              doloremque est architecto, atque maxime. Delectus illum dolorem
-              laudantium veniam? Lorem ipsum dolor sit amet consectetur
-              adipisicing elit. Ipsam praesentium nostrum hic rerum quasi enim,
-              velit consequatur nihil maxime animi.
-            </p>
-          </div>
-
-          {/* Sidebar (1/3) */}
-          <aside className="w-full md:w-1/3 space-y-4">
-            {/* Example S_idebar Content */}
-            <div className="bg-white dark:bg-gray-200  p-4 rounded shadow-lg">
-              <h3 className="text-lg font-semibold mb-2">Related News</h3>
-              <ul className="list-disc list-inside text-sm space-y-1">
-                <li>New visa rules for expats in 2025</li>
-                <li>How Golden Visas benefit investors</li>
-                <li>UAE economic reforms in focus</li>
-              </ul>
-
-              {relatedNews.length > 0 && (
-                <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded">
-                  <h3 className="text-lg font-semibold mb-2">
-                    More from {news?.category}
-                  </h3>
-                  <ul className="space-y-2 text-sm">
-                    {relatedNews.map((item) => (
-                      <li key={item.__id}>
-                        <Link
-                          to={`/news/${item.__id}`}
-                          className="text-blue-600 hover:underline"
-                        >
-                          {item.title}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-            <div className="rounded-md text-center">
-              <p className="text-sm font-medium">Advertisement</p>
-              <Link to="#">
-                <img
-                  src="https://media.istockphoto.com/id/1369150014/vector/breaking-news-with-world-map-background-vector.jpg?s=612x612&w=0&k=20&c=9pR2-nDBhb7cOvvZU_VdgkMmPJXrBQ4rB1AkTXxRIKM="
-                  alt="Image"
-                  className="w-full h-auto object-contain rounded"
-                />
-              </Link>{" "}
-            </div>
-
-            <div className="bg-white dark:bg-gray-200 p-4 rounded shadow-lg">
-              <h3 className="text-lg font-semibold mb-2">
-                Note <span>:</span>
-              </h3>
-              <p className="text-xs text-black">
-                Always verify news from official government portals before
-                proceeding with applications.
+            <div className="space-y-4 text-base leading-relaxed">
+              <p>{news?.description}</p>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                Accusamus id hic aspernatur odit expedita? Mollitia culpa
+                excepturi dolores, necessitatibus, inventore fugit dolorem vero
+                qui, dolore atque quis sapiente repellat in unde similique eius
+                quam sit consequuntur aliquam assumenda. Laborum velit hic esse
+                sapiente nostrum sint minima itaque rem molestias rerum delectus
+                deserunt, dicta, temporibus vel dolorem in eaque expedita fugiat
+                quae doloremque necessitatibus libero! Nam inventore enim dolor,
+                numquam minima maxime veritatis error fugiat dolorum unde
+                reiciendis consectetur doloremque laudantium? Ut corrupti atque
+                cum autem sint. Sed quam temporibus asperiores eos facilis
+                aliquam veritatis eligendi autem laudantium. Deserunt, iure
+                quod.
               </p>
             </div>
-          </aside>
+          </div>
+
+          {/* Right: Advertisement Section */}
+          <div className="w-full lg:w-[25%] bg-gray-100 p-4 rounded-lg shadow h-fit">
+            <h2 className="bg-green-600 text-white text-sm font-semibold px-3 py-2 rounded">
+              विज्ञापन
+            </h2>
+            <div className="mt-4 space-y-4">
+              <div className="w-full h-40 bg-white rounded shadow overflow-hidden flex items-center justify-center">
+                <img
+                  src={
+                    news.jpg ||
+                    "https://media.istockphoto.com/id/1369150014/vector/breaking-news-with-world-map-background-vector.jpg?s=612x612&w=0&k=20&c=9pR2-nDBhb7cOvvZU_VdgkMmPJXrBQ4rB1AkTXxRIKM="
+                  }
+                  alt="Ad Banner 1"
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              <div className="w-full h-40 bg-white rounded shadow overflow-hidden flex items-center justify-center">
+                <img
+                  src={
+                    news.jpg ||
+                    "https://media.istockphoto.com/id/1369150014/vector/breaking-news-with-world-map-background-vector.jpg?s=612x612&w=0&k=20&c=9pR2-nDBhb7cOvvZU_VdgkMmPJXrBQ4rB1AkTXxRIKM="
+                  }
+                  alt="Ad Banner 1"
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              <div className="w-full h-40 bg-white rounded shadow overflow-hidden flex items-center justify-center">
+                <img
+                  src={
+                    news.jpg ||
+                    "https://media.istockphoto.com/id/1369150014/vector/breaking-news-with-world-map-background-vector.jpg?s=612x612&w=0&k=20&c=9pR2-nDBhb7cOvvZU_VdgkMmPJXrBQ4rB1AkTXxRIKM="
+                  }
+                  alt="Ad Banner 1"
+                  className="object-cover w-full h-full"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
+      {/* Related News Section */}
+      <section className="p-10 bg-white  dark:bg-gray-200">
+        <div className="mb-6">
+          <div className="flex items-center">
+            <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-t font-semibold text-lg z-10">
+              Other News
+            </div>
+            <div className="flex-grow border-b-2 border-red-600"></div>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {relatedNews && relatedNews.length > 0 ? (
+            relatedNews.map((item, idx) => (
+              <div
+                key={item._id || idx}
+                className="bg-white shadow rounded-lg overflow-hidden"
+              >
+                <img
+                  src={
+                    item.imageUrl ||
+                    "https://media.istockphoto.com/id/1369150014/vector/breaking-news-with-world-map-background-vector.jpg?s=612x612&w=0&k=20&c=9pR2-nDBhb7cOvvZU_VdgkMmPJXrBQ4rB1AkTXxRIKM="
+                  }
+                  alt={item.title}
+                  className="w-full h-60 object-cover"
+                />
+                <div className="p-4">
+                  <Link to={`/news/${item._id}`}>
+                    <h3 className="text-lg font-semibold text-gray-800 hover:text-blue-600 cursor-pointer">
+                      {item.title}
+                    </h3>
+                  </Link>
+                  <h4 className="text-md text-gray-800 line-clamp-2">
+                    {item.excerpt}
+                  </h4>
+                  <p className="text-md text-gray-800 mt-2">
+                    <span className="text-green-600 font-semibold">
+                      {item.author || "Bitta Today"}
+                    </span>
+                    <span>, </span>
+                    {item.publishedAt?.slice(0, 10) || "Unknown time"}
+                  </p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-black font-semibold text-center col-span-full">
+              No related news found.
+            </p>
+          )}
+        </div>
+      </section>
       <Footer />
     </>
   );
 };
-
 export default SingleNews;

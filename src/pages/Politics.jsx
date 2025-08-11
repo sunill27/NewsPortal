@@ -1,108 +1,135 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Politics = () => {
+  const [politicsNews, setPoliticsNews] = useState([]);
+  const [otherNews, setOtherNews] = useState([]);
+  const [error, setError] = useState(null);
+  const BASE_URL = "http://localhost:3000";
+  const currentCategory = "politics";
+
+  const fetchPoliticsNews = async () => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/news?category=politics&limit=6&sort=latest`
+      );
+      const data = response.data?.data;
+      if (Array.isArray(data)) {
+        setPoliticsNews(data);
+      } else {
+        throw new Error("Unexpected data format");
+      }
+    } catch (err) {
+      console.error("Error fetching politics news:", err);
+      setError("Failed to load politics news");
+    }
+  };
+
+  useEffect(() => {
+    fetchPoliticsNews();
+  }, []);
+
+  const fetchOtherNews = async (currentCategory) => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/news?limit=6&sort=latest&random=true&excludeCategory=${currentCategory}`
+      );
+      console.log("Other news", response);
+      const data = response.data?.data;
+
+      if (Array.isArray(data)) {
+        setOtherNews(data);
+      } else {
+        throw new Error("Unexpected data format");
+      }
+    } catch (err) {
+      console.error("Error fetching other news:", err);
+      setError("Failed to load other news");
+    }
+  };
+
+  useEffect(() => {
+    fetchOtherNews(currentCategory);
+  }, [currentCategory]);
+
   return (
     <>
       <Navbar />
-      <section className="px-4 md:px-10 py-8 bg-white dark:bg-gray-200">
-        {/* Section Header */}
+      <section className="p-10 bg-white dark:bg-gray-200">
         <div className="mb-6">
           <div className="flex items-center">
-            <div className="inline-block bg-blue-600 text-white px-4 py-1 rounded-t font-semibold text-sm z-10">
+            <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-t font-semibold text-lg z-10">
               Politics
             </div>
-            <div className="flex-grow border-b-2 border-blue-600"></div>
+            <div className="flex-grow border-b-2 border-red-600"></div>
           </div>
         </div>
-
-        {/* Grid: Left (News) + Right (Ad) */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* LEFT SIDE: News Cards (3 cols) */}
           <div className="lg:col-span-3 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Repeatable Card */}
-            {[
-              {
-                title: "बुद्धका कारण नेपाल विश्वभर चिनिएको छ : मन्त्री पाण्डे",
-                img: "icon.png",
-                time: "१ दिन पहिले",
-              },
-              {
-                title:
-                  "शेर्पा पर्यटन व्यवसायी संघ नेपालको वार्षिक साधारण सभा हुने",
-                img: "/images/sherpa.jpg",
-                time: "६ दिन पहिले",
-              },
-              {
-                title: "जुलाईमा भित्रिए ७० हजार अन्तर्राष्ट्रिय पर्यटक",
-                img: "/images/map.jpg",
-                time: "६ दिन पहिले",
-              },
-              {
-                title: "राष्ट्रिय पर्यटन परिषदको पहिलो बैठक सम्पन्न",
-                img: "/images/meeting.jpg",
-                time: "४ दिन पहिले",
-              },
-              {
-                title:
-                  "मान बहादुर शाहको नेतृत्वमा सोटि नेपालको नयाँ कार्यसमिति",
-                img: "/images/group.jpg",
-                time: "५ दिन पहिले",
-              },
-              {
-                title: "मास्टर शेफ साहिले जनकपुरमा ‘फुड हाउस’ सुरु गरे",
-                img: "/images/chef.jpg",
-                time: "५ दिन पहिले",
-              },
-            ].map((item, idx) => (
-              <div
-                key={idx}
-                className="bg-white shadow rounded-lg overflow-hidden"
-              >
-                <img
-                  src={item.img}
-                  alt={item.title}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="text-sm font-semibold text-gray-800 hover:text-blue-600 cursor-pointer">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs text-gray-500 mt-2">
-                    {item.time} -{" "}
-                    <span className="text-green-600 font-semibold">
-                      The Everest News
-                    </span>
-                  </p>
-                </div>
-              </div>
-            ))}
+            {politicsNews && politicsNews.length > 0 ? (
+              politicsNews.map((item, idx) => {
+                console.log("imageUrl for item", item?.imageUrl);
+                return (
+                  <div
+                    key={item._id || idx}
+                    className="bg-white shadow rounded-lg overflow-hidden"
+                  >
+                    <img
+                      src={item?.imageUrl || "news.jpg"}
+                      alt={item?.title}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-4">
+                      <Link to={`/news/${item._id}`}>
+                        <h3 className="text-lg font-semibold text-gray-800 hover:text-blue-600 cursor-pointer">
+                          {item?.title}
+                        </h3>
+                      </Link>
+                      <h4 className="text-md text-gray-800">{item?.excerpt}</h4>
+                      <p className="text-md text-gray-800 mt-2">
+                        <span className="text-green-600 font-semibold">
+                          {item?.author || "Bitta Today"}
+                        </span>
+                        <span>,</span>{" "}
+                        {item?.publishedAt?.slice(0, 10) || "Unknown time"}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })
+            ) : error ? (
+              <p className="text-red-600 col-span-full">{error}</p>
+            ) : (
+              <p className="text-gray-500 col-span-full">Loading news...</p>
+            )}
           </div>
 
-          {/* RIGHT SIDE: Ad or Latest Updates */}
+          {/* RIGHT SIDE: Ad Section */}
           <div className="bg-gray-100 p-4 rounded-lg shadow h-fit">
-            <h2 className="bg-blue-600 text-white text-sm font-semibold px-3 py-2 rounded">
+            <h2 className="bg-green-600 text-white text-sm font-semibold px-3 py-2 rounded">
               विज्ञापन
             </h2>
             <div className="mt-4 space-y-4">
               <div className="w-full h-40 bg-white rounded shadow overflow-hidden flex items-center justify-center">
                 <img
-                  src="icon.png"
+                  src="news.jpg"
                   alt="Ad Banner 1"
                   className="object-cover w-full h-full"
                 />
               </div>
               <div className="w-full h-40 bg-white rounded shadow overflow-hidden flex items-center justify-center">
                 <img
-                  src="ad2.png"
+                  src="news.jpg"
                   alt="Ad Banner 2"
                   className="object-cover w-full h-full"
                 />
               </div>
               <div className="w-full h-40 bg-white rounded shadow overflow-hidden flex items-center justify-center">
                 <img
-                  src="ad3.png"
+                  src="news.jpg"
                   alt="Ad Banner 3"
                   className="object-cover w-full h-full"
                 />
@@ -112,121 +139,54 @@ const Politics = () => {
         </div>
       </section>
 
-      {/* Related section */}
-      <section className="px-4 md:px-10 py-8 bg-white  dark:bg-gray-200">
-        {/* Section Header */}
+      {/* Other News Section */}
+      <section className="p-10 bg-white  dark:bg-gray-200">
         <div className="mb-6">
           <div className="flex items-center">
-            <div className="inline-block bg-blue-600 text-white px-4 py-1 rounded-t font-semibold text-sm z-10">
-              Related News
+            <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-t font-semibold text-lg z-10">
+              Other News
             </div>
-            <div className="flex-grow border-b-2 border-blue-600"></div>
+            <div className="flex-grow border-b-2 border-red-600"></div>
           </div>
         </div>
-
-        {/* Grid: Left (News) + Right (Ad) */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* LEFT SIDE: News Cards (3 cols) */}
-          <div className="lg:col-span-3 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Repeatable Card */}
-            {[
-              {
-                title: "बुद्धका कारण नेपाल विश्वभर चिनिएको छ : मन्त्री पाण्डे",
-                img: "/images/buddha.jpg",
-                time: "१ दिन पहिले",
-              },
-              {
-                title:
-                  "शेर्पा पर्यटन व्यवसायी संघ नेपालको वार्षिक साधारण सभा हुने",
-                img: "/images/sherpa.jpg",
-                time: "६ दिन पहिले",
-              },
-              {
-                title: "जुलाईमा भित्रिए ७० हजार अन्तर्राष्ट्रिय पर्यटक",
-                img: "/images/map.jpg",
-                time: "६ दिन पहिले",
-              },
-              {
-                title: "राष्ट्रिय पर्यटन परिषदको पहिलो बैठक सम्पन्न",
-                img: "/images/meeting.jpg",
-                time: "४ दिन पहिले",
-              },
-              {
-                title:
-                  "मान बहादुर शाहको नेतृत्वमा सोटि नेपालको नयाँ कार्यसमिति",
-                img: "/images/group.jpg",
-                time: "५ दिन पहिले",
-              },
-              {
-                title: "मास्टर शेफ साहिले जनकपुरमा ‘फुड हाउस’ सुरु गरे",
-                img: "/images/chef.jpg",
-                time: "५ दिन पहिले",
-              },
-            ].map((item, idx) => (
-              <div
-                key={idx}
-                className="bg-white shadow rounded-lg overflow-hidden"
-              >
-                <img
-                  src={item.img}
-                  alt={item.title}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-4">
-                  <h3 className="text-sm font-semibold text-gray-800 hover:text-blue-600 cursor-pointer">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs text-gray-500 mt-2">
-                    {item.time} -{" "}
-                    <span className="text-green-600 font-semibold">
-                      Bitta Today
-                    </span>
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* <!-- Right Section: Latest Updates --> */}
-          <div class="bg-white rounded-lg shadow overflow-hidden">
-            <h2 class="bg-green-500 text-white text-lg font-semibold p-3">
-              ताजा अपडेट
-            </h2>
-            <ul class="divide-y divide-gray-200">
-              <li>
-                <a
-                  href="#"
-                  class="block p-3 text-sm text-gray-700 hover:bg-gray-50"
-                >
-                  तिलोत्तमालाई विश्व सम्पदा सूचीमा राख्न पुरा प्रयास गर्नुपर्ने
-                  - मन्त्री पौडे...
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block p-3 text-sm text-gray-700 hover:bg-gray-50"
-                >
-                  इन्द्रजात्रा काठमाडौंमा भव्य रुपमा सम्पन्न
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block p-3 text-sm text-gray-700 hover:bg-gray-50"
-                >
-                  पर्यटन व्यवसायमा सेमिनार आयोजना हुँदै
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  class="block p-3 text-sm text-gray-700 hover:bg-gray-50"
-                >
-                  देशभर वर्षा हुने सम्भावना
-                </a>
-              </li>
-            </ul>
+          <div className="lg:col-span-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {otherNews && otherNews.length > 0 ? (
+              otherNews.map((item, idx) => {
+                console.log("imageUrl for item", item?.imageUrl);
+                return (
+                  <div
+                    key={item._id || idx}
+                    className="bg-white shadow rounded-lg overflow-hidden"
+                  >
+                    <img
+                      src={item?.imageUrl || "news.jpg"}
+                      alt={item?.title}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-4">
+                      <Link to={`/news/${item._id}`}>
+                        <h3 className="text-lg font-semibold text-gray-800 hover:text-blue-600 cursor-pointer">
+                          {item?.title}
+                        </h3>
+                      </Link>
+                      <h4 className="text-md text-gray-800">{item?.excerpt}</h4>
+                      <p className="text-md text-gray-800 mt-2">
+                        <span className="text-green-600 font-semibold">
+                          {item?.author || "Bitta Today"}
+                        </span>
+                        <span>,</span>{" "}
+                        {item?.publishedAt?.slice(0, 10) || "Unknown time"}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })
+            ) : error ? (
+              <p className="text-red-600 col-span-full">{error}</p>
+            ) : (
+              <p className="text-gray-500 col-span-full">Loading news...</p>
+            )}
           </div>
         </div>
       </section>

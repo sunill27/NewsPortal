@@ -5,23 +5,22 @@ const Navbar = () => {
   const navItems = [
     { name: "Home", link: "/" },
     { name: "Politics", link: "/politics" },
-    { name: "Travel", link: "/travel" },
     { name: "Finance", link: "/finance" },
-    { name: "Markets", link: "/markets" },
     { name: "Agriculture", link: "/agriculture" },
+    { name: "Stock Markets", link: "/markets" },
     { name: "Energy", link: "/energy" },
-    { name: "Weather", link: "/weather" },
     { name: "Corporate", link: "/corporate" },
-    { name: "Careers", link: "#careers" },
+    { name: "Weather", link: "/weather" },
     { name: "Tech", link: "/tech" },
+    { name: "Travel", link: "/travel" },
     { name: "Sports", link: "/sports" },
     {
       name: "Other",
       link: "/other",
       children: [
-        { name: "Wealth", link: "/other/wealth" },
         { name: "Interview", link: "/other/interview" },
         { name: "Opinion", link: "/other/opinion" },
+        { name: "Wealth", link: "/other/wealth" },
       ],
     },
   ];
