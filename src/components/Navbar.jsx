@@ -50,10 +50,9 @@ const Navbar = () => {
   });
 
   return (
-    <header className="sticky top-0 z-50 bg-gray-100 dark:bg-gray-900 dark:border-gray-700 text-gray-900 dark:text-white">
+    <header className="sticky top-0 z-50 bg-gray-100 dark:bg-gray-900 dark:border-gray-700 text-gray-900 dark:text-white shadow-md">
       {/* Header Content */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center px-4 py-4 gap-4 relative">
-        {/* Logo + Date */}
         <div className="flex flex-col items-start">
           <Link to="/">
             <img src="/logo.png" alt="Logo" className="h-16 mb-1" />
@@ -97,9 +96,25 @@ const Navbar = () => {
             </div>
           ))}
         </nav>
+        <Link to="/login" className="hidden md:block">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+            />
+          </svg>
+        </Link>
 
         {/* Mobile Menu Toggle */}
-        <div className="absolute top-4 right-4 md:hidden">
+        <div className="absolute top-8 right-4 md:hidden">
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="focus:outline-none"
@@ -134,6 +149,23 @@ const Navbar = () => {
               </svg>
             )}
           </button>
+
+          <Link to="/login">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+              />
+            </svg>
+          </Link>
         </div>
       </div>
 
