@@ -1,16 +1,22 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Contact from "./pages/Contact";
-import About from "./pages/About";
-import SingleNews from "./pages/SingleNews";
-import Travel from "./pages/Travel";
-import Finance from "./pages/Finance";
-import Politics from "./pages/Politics";
-import Agriculture from "./pages/Agriculture";
 import SignIn from "./auth/SignIN";
 import SignUp from "./auth/SignUp";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import SingleNews from "./pages/SingleNews";
+import Politics from "./pages/Politics";
+import Administration from "./pages/Administration";
+import Finance from "./pages/Finance";
+import Agriculture from "./pages/Agriculture";
+import Stocks from "./pages/Stocks";
+import Technology from "./pages/Technology";
+import Corporate from "./pages/Corporate";
+import Sports from "./pages/Sports";
+import Weather from "./pages/Weather";
+import Infrastructure from "./pages/Infrastrucutre";
 
 function App() {
   return (
@@ -23,9 +29,14 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/news/:_id" element={<SingleNews />} />
         <Route path="/politics" element={<Politics />} />
-        <Route path="/agriculture" element={<Agriculture />} />
-        <Route path="/travel" element={<Travel />} />
         <Route path="/finance" element={<Finance />} />
+        <Route path="/stocks" element={<Stocks />} />
+        <Route path="/technology" element={<Technology />} />
+        <Route path="/agriculture" element={<Agriculture />} />
+        <Route path="/corporate" element={<Corporate />} />
+        <Route path="/infrastructure" element={<Infrastructure />} />
+        <Route path="/administration" element={<Administration />} />
+        <Route path="/sports" element={<Sports />} />
       </Routes>
     </BrowserRouter>
   );

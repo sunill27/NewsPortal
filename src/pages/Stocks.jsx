@@ -4,32 +4,32 @@ import Navbar from "../components/Navbar";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-const Politics = () => {
-  const [politicsNews, setPoliticsNews] = useState([]);
+const Stocks = () => {
+  const [stocksNews, setStocksNews] = useState([]);
   const [otherNews, setOtherNews] = useState([]);
   const [error, setError] = useState(null);
   const BASE_URL = "http://localhost:3000";
-  const currentCategory = "politics";
+  const currentCategory = "stocks";
 
-  const fetchPoliticsNews = async () => {
+  const fetchStocksNews = async () => {
     try {
       const response = await axios.get(
-        `${BASE_URL}/news?category=politics&limit=6&sort=latest`
+        `${BASE_URL}/news?category=stocks&limit=6&sort=latest`
       );
       const data = response.data?.data;
       if (Array.isArray(data)) {
-        setPoliticsNews(data);
+        setStocksNews(data);
       } else {
         throw new Error("Unexpected data format");
       }
     } catch (err) {
-      console.error("Error fetching politics news:", err);
-      setError("Failed to load politics news");
+      console.error("Error fetching stocks news:", err);
+      setError("Failed to load stocks news");
     }
   };
 
   useEffect(() => {
-    fetchPoliticsNews();
+    fetchStocksNews();
   }, []);
 
   const fetchOtherNews = async (currentCategory) => {
@@ -62,7 +62,7 @@ const Politics = () => {
         <div className="mb-6">
           <div className="flex items-center">
             <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-t font-semibold text-lg z-10">
-              Politics
+              Stocks
             </div>
             <div className="flex-grow border-b-2 border-red-600"></div>
           </div>
@@ -70,8 +70,8 @@ const Politics = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           <div className="lg:col-span-3">
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
-              {politicsNews && politicsNews.length > 0 ? (
-                politicsNews.map((item, idx) => (
+              {stocksNews && stocksNews.length > 0 ? (
+                stocksNews.map((item, idx) => (
                   <div
                     key={item._id || idx}
                     className="bg-white shadow rounded-lg overflow-hidden"
@@ -194,4 +194,4 @@ const Politics = () => {
   );
 };
 
-export default Politics;
+export default Stocks;

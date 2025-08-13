@@ -16,7 +16,7 @@ const Footer = () => {
       />
 
       {/* Footer Section */}
-      <footer className="w-full relative bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white pt-16 pb-8">
+      <footer className="w-full relative bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white pt-5 pb-8">
         {/* Wave SVG background */}
         <div
           className="absolute -top-12 left-0 w-full h-12"

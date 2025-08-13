@@ -68,12 +68,10 @@ const Finance = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-3 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {financeNews && financeNews.length > 0 ? (
-              financeNews.map((item, idx) => {
-                console.log("imageUrl for item", item?.imageUrl); // ✅ This works now
-
-                return (
+          <div className="lg:col-span-3">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+              {financeNews && financeNews.length > 0 ? (
+                financeNews.map((item, idx) => (
                   <div
                     key={item._id || idx}
                     className="bg-white shadow rounded-lg overflow-hidden"
@@ -99,13 +97,13 @@ const Finance = () => {
                       </p>
                     </div>
                   </div>
-                );
-              })
-            ) : error ? (
-              <p className="text-red-600 col-span-full">{error}</p>
-            ) : (
-              <p className="text-gray-500 col-span-full">Loading news...</p>
-            )}
+                ))
+              ) : error ? (
+                <p className="text-red-600 col-span-full">{error}</p>
+              ) : (
+                <p className="text-gray-500 col-span-full">Loading news...</p>
+              )}
+            </div>
           </div>
 
           {/* RIGHT SIDE: Ad Section */}
@@ -151,11 +149,10 @@ const Finance = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {otherNews && otherNews.length > 0 ? (
-              otherNews.map((item, idx) => {
-                console.log("imageUrl for item", item?.imageUrl);
-                return (
+          <div className="lg:col-span-4">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+              {otherNews && otherNews.length > 0 ? (
+                otherNews.map((item, idx) => (
                   <div
                     key={item._id || idx}
                     className="bg-white shadow rounded-lg overflow-hidden"
@@ -181,13 +178,13 @@ const Finance = () => {
                       </p>
                     </div>
                   </div>
-                );
-              })
-            ) : error ? (
-              <p className="text-red-600 col-span-full">{error}</p>
-            ) : (
-              <p className="text-gray-500 col-span-full">Loading news...</p>
-            )}
+                ))
+              ) : error ? (
+                <p className="text-red-600 col-span-full">{error}</p>
+              ) : (
+                <p className="text-gray-500 col-span-full">Loading news...</p>
+              )}
+            </div>
           </div>
         </div>
       </section>

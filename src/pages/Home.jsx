@@ -156,7 +156,7 @@ const Home = () => {
           <div className="w-full p-4 bg-white dark:bg-gray-200 mt-2">
             <div className="max-w-screen-xl mx-auto">
               <img
-                src="advertisement.jpg"
+                src="advertisement.gif"
                 alt="Ad Banner"
                 className="w-full h-auto object-contain  mb-5"
               />

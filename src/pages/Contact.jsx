@@ -95,7 +95,7 @@ const Contact = () => {
             {contacts.map((item, idx) => (
               <div
                 key={idx}
-                className="flex flex-col gap-y-12 rounded-2xl bg-white dark:bg-gray-200 borderb p-6 shadow-lg"
+                className="flex flex-col gap-y-12 rounded-2xl bg-gray-200 dark:bg-white borderb p-6 shadow-lg"
               >
                 <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-pink-500 shadow-sm">
                   {item.icon}
@@ -111,7 +111,7 @@ const Contact = () => {
                   </div>
                   <Link
                     href="#"
-                    className="mt-4 inline-block text-base font-semibold"
+                    className="mt-4 inline-block text-base font-semibold text-pink-500"
                   >
                     {item.email}
                   </Link>
