@@ -17,17 +17,7 @@ const Footer = () => {
 
       {/* Footer Section */}
       <footer className="w-full relative bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white pt-5 pb-8">
-        {/* Wave SVG background */}
-        <div
-          className="absolute -top-12 left-0 w-full h-12"
-          style={{
-            backgroundImage: "url('data:image/svg+xml;utf8,<svg viewBox=...')",
-            backgroundSize: "cover",
-          }}
-        ></div>
-
         <div className="max-w-7xl mx-auto px-5 grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-10 relative z-10">
-          {/* About */}
           <div>
             <div className="flex items-center gap-4">
               <Link to="/">
@@ -138,28 +128,6 @@ const Footer = () => {
                 </div>
               </li>
             </ul>
-
-            {/* Newsletter */}
-            {/* <h3 className="text-xl text-pink-600 font-semibold mb-2 border-b-2 border-pink-600 pb-2">
-              Newsletter
-            </h3>
-            <p className="mb-4 opacity-70 dark:opacity-60">
-              Subscribe to get updates on our latest events and offers.
-            </p>
-            <form className="flex">
-              <input
-                type="email"
-                placeholder="Your Email"
-                required
-                className="flex-1 p-3 rounded-l-md focus:outline-none border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-              />
-              <button
-                type="submit"
-                className="bg-pink-600 hover:bg-pink-500 text-white p-3 rounded-r-md transition"
-              >
-                <i className="fas fa-paper-plane"></i>
-              </button>
-            </form> */}
           </div>
         </div>
 

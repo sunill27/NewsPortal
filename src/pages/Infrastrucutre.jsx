@@ -58,6 +58,14 @@ const Infrastructure = () => {
     <>
       <Navbar />
       <section className="p-10 bg-white dark:bg-gray-200">
+        {/* Advertisement Section */}
+        <div className="max-w-screen-xl mx-auto">
+          <img
+            src="advertisement.gif"
+            alt="Ad Banner"
+            className="w-full h-auto object-contain  mb-5"
+          />
+        </div>
         <div className="mb-6">
           <div className="flex items-center">
             <div className="inline-block bg-red-600 text-white px-4 py-1 rounded-t font-semibold text-lg z-10">

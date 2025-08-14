@@ -15,8 +15,8 @@ import Stocks from "./pages/Stocks";
 import Technology from "./pages/Technology";
 import Corporate from "./pages/Corporate";
 import Sports from "./pages/Sports";
-import Weather from "./pages/Weather";
 import Infrastructure from "./pages/Infrastrucutre";
+import Other from "./pages/Other";
 
 function App() {
   return (
@@ -37,6 +37,7 @@ function App() {
         <Route path="/infrastructure" element={<Infrastructure />} />
         <Route path="/administration" element={<Administration />} />
         <Route path="/sports" element={<Sports />} />
+        <Route path="/other" element={<Other />} />
       </Routes>
     </BrowserRouter>
   );

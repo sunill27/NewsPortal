@@ -10,20 +10,24 @@ const SignIn = () => {
     try {
       setStatus("loading");
 
-      const res = await fetch("/api/login", {
+      const res = await fetch("http://localhost:3000/user/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
 
-      const result = await res.json();
+      let result = {};
+      const contentType = res.headers.get("content-type");
+
+      if (contentType && contentType.includes("application/json")) {
+        result = await res.json();
+      }
 
       if (res.ok) {
-        // Optionally store token in localStorage or cookies
-        localStorage.setItem("token", result.token); // assuming backend returns a JWT
+        localStorage.setItem("token", result.token || "");
         setStatus("success");
       } else {
-        console.error("Login failed:", result.message);
+        console.error("Login failed:", result.message || "Unknown error");
         setStatus("error");
       }
     } catch (err) {

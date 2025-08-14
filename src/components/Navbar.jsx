@@ -75,11 +75,8 @@ const Navbar = () => {
 
               {item.children && (
                 <div
-                  className={`absolute top-full mt-2 w-48 max-w-[calc(100vw-2rem)] bg-white dark:bg-gray-800 shadow-lg rounded-md
-      opacity-0 pointer-events-none
-      group-hover:opacity-100 group-hover:pointer-events-auto
-      transition-opacity duration-200 z-50
-      ${item.name === "Other" ? "right-0" : "left-0"}`}
+                  className={`absolute top-full mt-2 w-48 max-w-[calc(100vw-2rem)] bg-white dark:bg-gray-800 shadow-lg rounded-md opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-200 z-50
+                ${item.name === "Other" ? "right-0" : "left-0"}`}
                 >
                   {item.children.map((child) => (
                     <Link

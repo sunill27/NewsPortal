@@ -249,7 +249,7 @@ const SingleNews = () => {
                       placeholder="Your name"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
-                      className="w-full border rounded px-2 py-1 text-sm text-black focus:outline-none focus:shadow-outline"
+                      className="w-full border rounded px-2 py-1 text-sm text-gray-300 focus:outline-none focus:shadow-outline"
                     />
                   </div>
 
@@ -267,7 +267,7 @@ const SingleNews = () => {
                       placeholder="Your comment"
                       value={text}
                       onChange={(e) => setText(e.target.value)}
-                      className="w-full border rounded px-2 py-1 text-sm text-black focus:outline-none focus:shadow-outline"
+                      className="w-full border rounded px-2 py-1 text-sm text-gray-300 focus:outline-none focus:shadow-outline"
                     />
                   </div>
 
