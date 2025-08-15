@@ -107,7 +107,7 @@ const Other = () => {
           <img
             src="advertisement.gif"
             alt="Ad Banner"
-            className="w-full h-auto object-contain  mb-8"
+            className="w-full h-auto object-contain mb-8"
           />
         </div>
         <div className="mb-6">
