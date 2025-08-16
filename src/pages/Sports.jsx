@@ -23,10 +23,7 @@ const Sports = () => {
     try {
       setLoading(true);
       const limit = 4;
-      const endpoint =
-        category === "sports"
-          ? `${BASE_URL}/news?limit=${limit}&sort=latest&page=${page}`
-          : `${BASE_URL}/news?category=${category}&limit=${limit}&sort=latest&page=${page}`;
+      const endpoint = `${BASE_URL}/news?category=${category}&limit=${limit}&sort=latest&page=${page}`;
 
       const res = await axios.get(endpoint); // ✅ define res here
       const newItems = res.data.data || [];

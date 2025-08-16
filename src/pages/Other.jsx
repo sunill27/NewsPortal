@@ -38,7 +38,6 @@ const Other = () => {
   };
 
   // Repeat similarly for opinions, weatherNews, tourismNews...
-
   const fetchOpinions = async () => {
     try {
       const response = await axios.get(
