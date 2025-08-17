@@ -137,7 +137,7 @@ const Form = ({ type, onSubmit }) => {
           <div className="mt-6 text-center text-sm">
             {type === "register" ? (
               <>
-                Already have an account?{" "}
+                <span className="text-black"> Already have an account? </span>{" "}
                 <Link
                   to="/login"
                   className="font-medium text-blue-600 hover:text-blue-500"
