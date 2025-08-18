@@ -11,11 +11,11 @@ import Politics from "./pages/Politics";
 import Administration from "./pages/Administration";
 import Finance from "./pages/Finance";
 import Agriculture from "./pages/Agriculture";
+import Infrastructure from "./pages/Infrastructure";
 import Stocks from "./pages/Stocks";
-import Technology from "./pages/Technology";
 import Corporate from "./pages/Corporate";
+import Technology from "./pages/Technology";
 import Sports from "./pages/Sports";
-import Infrastructure from "./pages/Infrastrucutre";
 import Other from "./pages/Other";
 
 function App() {

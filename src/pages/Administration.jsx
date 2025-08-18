@@ -29,7 +29,7 @@ const Administration = () => {
       const limit = 8;
       const endpoint = `${BASE_URL}/news?category=${category}&limit=${limit}&sort=latest&page=${page}`;
 
-      const res = await axios.get(endpoint); // ✅ define res here
+      const res = await axios.get(endpoint);
       const newItems = res.data.data || [];
 
       setAdministrationNews((prev) =>
@@ -46,8 +46,8 @@ const Administration = () => {
       setLoading(false);
     } catch (err) {
       setLoading(false);
-      console.error("Error fetching politics news:", err);
-      setError("Failed to load politics news");
+      console.error("Error fetching administration news:", err);
+      setError("Failed to load administration news");
     }
   };
 

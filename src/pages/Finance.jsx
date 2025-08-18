@@ -22,7 +22,7 @@ const Finance = () => {
   const fetchFinanceNews = async (category, page = 1, append = false) => {
     try {
       setLoading(true);
-      const limit = 4;
+      const limit = 8;
       const endpoint = `${BASE_URL}/news?category=${category}&limit=${limit}&sort=latest&page=${page}`;
 
       const res = await axios.get(endpoint);
@@ -40,8 +40,8 @@ const Finance = () => {
       setLoading(false);
     } catch (err) {
       setLoading(false);
-      console.error("Error fetching politics news:", err);
-      setError("Failed to load politics news");
+      console.error("Error fetching finance news:", err);
+      setError("Failed to load finance news");
     }
   };
 

@@ -22,10 +22,10 @@ const Politics = () => {
   const fetchPoliticsNews = async (category, page = 1, append = false) => {
     try {
       setLoading(true);
-      const limit = 4;
+      const limit = 8;
       const endpoint = `${BASE_URL}/news?category=${category}&limit=${limit}&sort=latest&page=${page}`;
 
-      const res = await axios.get(endpoint); // ✅ define res here
+      const res = await axios.get(endpoint);
       const newItems = res.data.data || [];
 
       setPoliticsNews((prev) => (append ? [...prev, ...newItems] : newItems));
