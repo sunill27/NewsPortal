@@ -8,29 +8,63 @@ const Infrastructure = () => {
   const [infrastructureNews, setInfrastructureNews] = useState([]);
   const [otherNews, setOtherNews] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const BASE_URL = "http://localhost:3000";
   const currentCategory = "infrastructure";
 
-  const fetchInfrastructureNews = async () => {
+  const [pageState, setPageState] = useState({
+    infrastructure: 1,
+  });
+  const [hasMore, setHasMore] = useState({
+    infrastructure: true,
+  });
+
+  const fetchInfrastructureNews = async (
+    category,
+    page = 1,
+    append = false
+  ) => {
     try {
-      const response = await axios.get(
-        `${BASE_URL}/news?category=infrastructure&limit=6&sort=latest`
+      setLoading(true);
+      const limit = 4;
+      const endpoint = `${BASE_URL}/news?category=${category}&limit=${limit}&sort=latest&page=${page}`;
+
+      const res = await axios.get(endpoint); // ✅ define res here
+      const newItems = res.data.data || [];
+
+      setInfrastructureNews((prev) =>
+        append ? [...prev, ...newItems] : newItems
       );
-      const data = response.data?.data;
-      if (Array.isArray(data)) {
-        setInfrastructureNews(data);
-      } else {
-        throw new Error("Unexpected data format");
+
+      // If fewer items returned than requested, there's no more data
+      if (newItems.length < limit) {
+        setHasMore((prev) => ({
+          ...prev,
+          [category]: false,
+        }));
       }
+      setLoading(false);
     } catch (err) {
-      console.error("Error fetching finance news:", err);
-      setError("Failed to load finance news");
+      setLoading(false);
+      console.error("Error fetching politics news:", err);
+      setError("Failed to load politics news");
     }
   };
 
   useEffect(() => {
-    fetchInfrastructureNews();
+    fetchInfrastructureNews("infrastructure", 1);
   }, []);
+
+  const handleLoadMore = (category) => {
+    if (!hasMore[category] || loading) return;
+
+    const nextPage = pageState[category] + 1;
+    setPageState((prev) => ({
+      ...prev,
+      [category]: nextPage,
+    }));
+    fetchInfrastructureNews(category, nextPage, true);
+  };
 
   const fetchOtherNews = async (currentCategory) => {
     try {
@@ -54,6 +88,9 @@ const Infrastructure = () => {
   useEffect(() => {
     fetchOtherNews(currentCategory);
   }, [currentCategory]);
+
+  if (loading) return <p>Loading news...</p>;
+  if (error) return <p>{error}</p>;
   return (
     <>
       <Navbar />
@@ -76,8 +113,8 @@ const Infrastructure = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-3">
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+          <div className="lg:col-span-4">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 items-start">
               {infrastructureNews && infrastructureNews.length > 0 ? (
                 infrastructureNews.map((item, idx) => (
                   <div
@@ -114,35 +151,22 @@ const Infrastructure = () => {
             </div>
           </div>
 
-          {/* RIGHT SIDE: Ad Section */}
-          <div className="bg-gray-100 p-4 rounded-lg shadow h-fit">
-            <h2 className="bg-green-600 text-white text-sm font-semibold px-3 py-2 rounded">
-              विज्ञापन
-            </h2>
-            <div className="mt-4 space-y-4">
-              <div className="w-full h-40 bg-white rounded shadow overflow-hidden flex items-center justify-center">
-                <img
-                  src="news.jpg"
-                  alt="Ad Banner 1"
-                  className="object-cover w-full h-full"
-                />
-              </div>
-              <div className="w-full h-40 bg-white rounded shadow overflow-hidden flex items-center justify-center">
-                <img
-                  src="news.jpg"
-                  alt="Ad Banner 2"
-                  className="object-cover w-full h-full"
-                />
-              </div>
-              <div className="w-full h-40 bg-white rounded shadow overflow-hidden flex items-center justify-center">
-                <img
-                  src="news.jpg"
-                  alt="Ad Banner 3"
-                  className="object-cover w-full h-full"
-                />
-              </div>
+          {hasMore.infrastructure && (
+            <div className="col-span-full text-center mt-6">
+              <button
+                onClick={() => handleLoadMore("infrastructure")}
+                className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-800 transition"
+                disabled={loading}
+              >
+                {loading ? "Loading..." : "Load More"}
+              </button>
             </div>
-          </div>
+          )}
+          {!hasMore.infrastructure && (
+            <p className="text-center text-gray-500 col-span-full mt-4">
+              No more news to load.
+            </p>
+          )}
         </div>
       </section>
 
@@ -157,7 +181,7 @@ const Infrastructure = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-4">
+          <div className="lg:col-span-3">
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
               {otherNews && otherNews.length > 0 ? (
                 otherNews.map((item, idx) => (
@@ -192,6 +216,35 @@ const Infrastructure = () => {
               ) : (
                 <p className="text-gray-500 col-span-full">Loading news...</p>
               )}
+            </div>
+          </div>
+          {/* RIGHT SIDE: Ad Section */}
+          <div className="bg-gray-100 p-4 rounded-lg shadow h-fit">
+            <h2 className="bg-green-600 text-white text-sm font-semibold px-3 py-2 rounded">
+              विज्ञापन
+            </h2>
+            <div className="mt-4 space-y-4">
+              <div className="w-full h-40 bg-white rounded shadow overflow-hidden flex items-center justify-center">
+                <img
+                  src="news.jpg"
+                  alt="Ad Banner 1"
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              <div className="w-full h-40 bg-white rounded shadow overflow-hidden flex items-center justify-center">
+                <img
+                  src="news.jpg"
+                  alt="Ad Banner 2"
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              <div className="w-full h-40 bg-white rounded shadow overflow-hidden flex items-center justify-center">
+                <img
+                  src="news.jpg"
+                  alt="Ad Banner 3"
+                  className="object-cover w-full h-full"
+                />
+              </div>
             </div>
           </div>
         </div>

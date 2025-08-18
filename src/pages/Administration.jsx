@@ -26,7 +26,7 @@ const Administration = () => {
   ) => {
     try {
       setLoading(true);
-      const limit = 4;
+      const limit = 8;
       const endpoint = `${BASE_URL}/news?category=${category}&limit=${limit}&sort=latest&page=${page}`;
 
       const res = await axios.get(endpoint); // ✅ define res here
