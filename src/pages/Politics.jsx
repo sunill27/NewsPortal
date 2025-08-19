@@ -211,6 +211,7 @@ const Politics = () => {
               )}
             </div>
           </div>
+
           {/* RIGHT SIDE: Ad Section */}
           <div className="bg-gray-100 p-4 rounded-lg shadow h-fit">
             <h2 className="bg-green-600 text-white text-sm font-semibold px-3 py-2 rounded">

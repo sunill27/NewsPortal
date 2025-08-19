@@ -113,7 +113,7 @@ const Agriculture = () => {
           <div className="lg:col-span-4 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {agricultureNews && agricultureNews.length > 0 ? (
               agricultureNews.map((item, idx) => {
-                console.log("imageUrl for item", item?.imageUrl); // ✅ This works now
+                console.log("imageUrl for item", item?.imageUrl);
 
                 return (
                   <div

@@ -117,7 +117,7 @@ const SingleNews = () => {
         {
           method: "DELETE",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // Assuming token-based auth
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );

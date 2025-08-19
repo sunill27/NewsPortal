@@ -29,7 +29,7 @@ const Infrastructure = () => {
       const limit = 8;
       const endpoint = `${BASE_URL}/news?category=${category}&limit=${limit}&sort=latest&page=${page}`;
 
-      const res = await axios.get(endpoint); // ✅ define res here
+      const res = await axios.get(endpoint);
       const newItems = res.data.data || [];
 
       setInfrastructureNews((prev) =>

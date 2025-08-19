@@ -37,7 +37,6 @@ const Other = () => {
     }
   };
 
-  // Repeat similarly for opinions, weatherNews, tourismNews...
   const fetchOpinions = async () => {
     try {
       const response = await axios.get(
@@ -207,7 +206,7 @@ const Other = () => {
           <div className="lg:col-span-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {opinions && opinions.length > 0 ? (
               opinions.map((item, idx) => {
-                console.log("imageUrl for item", item?.imageUrl); // ✅ This works now
+                console.log("imageUrl for item", item?.imageUrl);
 
                 return (
                   <div
@@ -260,7 +259,7 @@ const Other = () => {
           <div className="lg:col-span-3 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {weatherNews && weatherNews.length > 0 ? (
               weatherNews.map((item, idx) => {
-                console.log("imageUrl for item", item?.imageUrl); // ✅ This works now
+                console.log("imageUrl for item", item?.imageUrl);
                 return (
                   <div
                     key={item._id || idx}
@@ -344,7 +343,7 @@ const Other = () => {
           <div className="lg:col-span-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {tourismNews && tourismNews.length > 0 ? (
               tourismNews.map((item, idx) => {
-                console.log("imageUrl for item", item?.imageUrl); // ✅ This works now
+                console.log("imageUrl for item", item?.imageUrl);
 
                 return (
                   <div

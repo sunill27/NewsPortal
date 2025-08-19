@@ -22,7 +22,7 @@ const Home = () => {
           axios.get(`${BASE_URL}/news?category=politics&limit=6&sort=latest`),
           axios.get(`${BASE_URL}/news?category=finance&limit=6&sort=latest`),
           axios.get(`${BASE_URL}/news?category=corporate&limit=6&sort=latest`),
-          axios.get(`${BASE_URL}/news?limit=5&sort=latest`), // trending — no category, just latest
+          axios.get(`${BASE_URL}/news?limit=5&sort=latest`),
         ]);
       setNewsData({
         trending: trendingRes.data.data || [],
@@ -176,8 +176,7 @@ const Home = () => {
             <div className="lg:col-span-3 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {newsData.politics && newsData.politics.length > 0 ? (
                 newsData.politics.map((item, idx) => {
-                  console.log("imageUrl for item", item?.imageUrl); // ✅ This works now
-
+                  console.log("imageUrl for item", item?.imageUrl);
                   return (
                     <div
                       key={item._id || idx}
@@ -263,7 +262,7 @@ const Home = () => {
             <div className="lg:col-span-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {newsData.finance && newsData.finance.length > 0 ? (
                 newsData.finance.map((item, idx) => {
-                  console.log("imageUrl for item", item?.imageUrl); // ✅ This works now
+                  console.log("imageUrl for item", item?.imageUrl);
 
                   return (
                     <div
@@ -320,7 +319,7 @@ const Home = () => {
             <div className="lg:col-span-4 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {newsData.corporate && newsData.corporate.length > 0 ? (
                 newsData.corporate.map((item, idx) => {
-                  console.log("imageUrl for item", item?.imageUrl); // ✅ This works now
+                  console.log("imageUrl for item", item?.imageUrl);
 
                   return (
                     <div
